@@ -1,7 +1,7 @@
 import sqlite3
 import requests
 
-db = sqlite3.connect('amiibo.db')
+db = sqlite3.connect('../assets/amiibo.db')
 print("Successfully opened database")
 c = db.cursor()
 
