@@ -138,7 +138,7 @@ def list_selection(term: terminal, data: list[tuple]) -> int:
             return selected
 
         if GPIO.event_detected(Interface.key3):
-            return 0
+            return -1
         
         if horizontal_counter == horizontal_threshold:
             horizontal_counter = 0

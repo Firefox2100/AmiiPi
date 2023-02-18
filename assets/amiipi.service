@@ -1,0 +1,10 @@
+[Unit]
+Desription=AmiiPi, A Python tool for RPI with OLED hat to work with Amiibos
+After=bluetooth.target
+
+[Service]
+ExecStart=python /path/to/AmiiPi/src/Amiipi.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

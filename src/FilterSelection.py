@@ -1,6 +1,7 @@
 from luma.core.virtual import terminal
 import time
 import RPi.GPIO as GPIO
+import os
 
 import Interface
 
@@ -50,6 +51,9 @@ def filter_selection(term: terminal) -> int:
         
         if GPIO.event_detected(Interface.stick_press):
             return selected
+
+        if GPIO.event_detected(Interface.key3):
+            os.system("shutdown /s /t 1")
 
         term.flush()
         time.sleep(0.1)

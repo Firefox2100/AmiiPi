@@ -1,4 +1,3 @@
-import time
 import sqlite3
 
 import Interface
@@ -17,7 +16,7 @@ if __name__ == "__main__":
     term = Interface.get_terminal()
 
     pm3 = Proxmark3.Proxmark3()
-    
+
     StartScreen.start_screen(term)
     term.animate = False
     while True:
@@ -74,7 +73,7 @@ if __name__ == "__main__":
                 elif filter_result == 1:
                     sql += 'WHERE "game_series" IS "' + name_selection + '";'
                 elif filter_result == 2:
-                    sql += 'WHERE "name" IN (SELECT DISTINCT "amiibo" FROM "usages" WHERE "game" IS "' + name_selection + '";'
+                    sql += 'WHERE "name" IN (SELECT DISTINCT "amiibo" FROM "usages" WHERE "game" IS "' + name_selection + '");'
                 
                 amiibo_result = c.execute(sql).fetchall()
             
@@ -84,4 +83,4 @@ if __name__ == "__main__":
                 if amiibo_selected == -1:
                     break
                 else:
-                    AmiiboInfo.amiibo_info(term, amiibo_result[amiibo_selected])
+                    AmiiboInfo.amiibo_info(term, amiibo_result[amiibo_selected], pm3)

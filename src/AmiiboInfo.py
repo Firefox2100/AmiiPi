@@ -6,7 +6,7 @@ import Interface
 import Proxmark3
 
 def amiibo_info(term: terminal, amiibo_data: tuple, pm3: Proxmark3.Proxmark3):
-    term.clear
+    term.clear()
 
     term.println(amiibo_data[0])
     term.newline()
