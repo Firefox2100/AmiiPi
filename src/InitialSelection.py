@@ -4,7 +4,7 @@ import RPi.GPIO as GPIO
 
 import Interface
 
-def initial_selection(term: terminal, filter: int) -> int:
+def initial_selection(term: terminal) -> int:
     menu_list = [
         " A  B  C  D  E  F  G ",
         " H  I  J  K  L  M  N ",
@@ -74,4 +74,4 @@ if __name__ == "__main__":
     Interface.gpio_config()
     term = Interface.get_terminal()
     term.animate = False
-    initial_selection(term, 0)
+    initial_selection(term)
