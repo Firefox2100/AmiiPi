@@ -25,13 +25,12 @@ if __name__ == "__main__":
         elif initial_result == 27:
             pass
         else:
-            match filter_result:
-                case 0:
-                    sql = 'SELECT DISTINCT "characters" FROM "amiibos" WHERE "characters" LIKE "' + chr(65 + initial_result) + '%";'
-                case 1:
-                    sql = 'SELECT DISTINCT "game_series" FROM "amiibos" WHERE "game_series" LIKE "' + chr(65 + initial_result) + '%";'
-                case 2:
-                    sql = 'SELECT DISTINCT "game" FROM "usages" WHERE "game" LIKE "' + chr(65 + initial_result) + '%";'
+            if filter_result == 0:
+                sql = 'SELECT DISTINCT "characters" FROM "amiibos" WHERE "characters" LIKE "' + chr(65 + initial_result) + '%";'
+            elif filter_result == 1:
+                sql = 'SELECT DISTINCT "game_series" FROM "amiibos" WHERE "game_series" LIKE "' + chr(65 + initial_result) + '%";'
+            elif filter_result == 2:
+                sql = 'SELECT DISTINCT "game" FROM "usages" WHERE "game" LIKE "' + chr(65 + initial_result) + '%";'
 
             db_result = c.execute(sql)
             print(db_result)
