@@ -18,7 +18,7 @@ def display_list(term: terminal, menu:list[str]):
         term._cx = 0
 
 
-def list_selection(term: terminal, data: list[tuple]):
+def list_selection(term: terminal, data: list[tuple]) -> int:
     view_point = 0
     selected = 0
     horizontal_start = 0
@@ -133,6 +133,12 @@ def list_selection(term: terminal, data: list[tuple]):
             horizontal_counter = 0
             horizontal_start = 0
             term.flush()
+        
+        if GPIO.event_detected(Interface.stick_press):
+            return selected
+
+        if GPIO.event_detected(Interface.key3):
+            return 0
         
         if horizontal_counter == horizontal_threshold:
             horizontal_counter = 0

@@ -1,8 +1,9 @@
 import os
+import sys
 import random
 from amiibo import AmiiboDump, AmiiboMasterKey
-from subprocess import Popen, PIPE
 from time import sleep
+from pexpect.popen_spawn import PopenSpawn
 
 eml_starting_line = 19
 
@@ -12,8 +13,7 @@ class Proxmark3:
         
         # Start the PM3 shell
         shell_command = os.path.join(proxmark_path, "client", "") + "proxmark3 " + port
-        self.proxmark3 = Popen(shell_command, stdin=PIPE, stdout=PIPE, universal_newlines=True)
-        sleep(1)
+        self.proxmark3 = PopenSpawn(shell_command)
 
 
     def eml_to_bin(self, eml_path: str, bin_path: str):
@@ -34,20 +34,20 @@ class Proxmark3:
 
 
     def pm3_load(self, dump_name: str):
-        command = "hf mfu eload -f " + os.path.join("../assets/amiibos", dump_name)
-        self.proxmark3.communicate(input=command)
+        command = "hf mfu eload -f " + os.path.join(sys.path[0], "../assets/amiibos", dump_name)
+        self.proxmark3.sendline(input=command)
 
         sleep(2)
 
         command = "hf mfu sim -t 7"
-        output = self.proxmark3.communicate(input=command)
+        self.proxmark3.sendline(input=command)
 
 
-    def randomize_uid(self, input_name: str, key_path: str):
+    def randomize_uid(self, input_name: str, key_path=sys.path[0]+"../assets/key.bin"):
         uid = "04"
 
-        input_path = os.path.join("../assets/amiibos", input_name)
-        output_path = os.path.join("../assets/amiibos/", "temp.bin")
+        input_path = os.path.join(sys.path[0], "../assets/amiibos", input_name)
+        output_path = os.path.join(sys.path[0], "../assets/amiibos/", "temp.bin")
 
         for i in range(0, 6):
             uid += hex(random.randint(0, 255))[2:]
@@ -69,9 +69,11 @@ class Proxmark3:
 
     def write_back(self, dump_name: str):
         command = "hf mfu esave -f temp"
-        self.proxmark3.communicate(input=command)
+        self.proxmark3.sendline(input=command)
         sleep(2)
 
         source_path = os.path.join(self.proxmark_path, "temp.bin")
-        destination_path = os.path.join("../assets/amiibos", dump_name)
+        destination_path = os.path.join(sys.path[0], "../assets/amiibos", dump_name)
         os.replace(source_path, destination_path)
+
+        os.remove(source_path)
