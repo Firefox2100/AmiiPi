@@ -4,7 +4,7 @@ import RPi.GPIO as GPIO
 
 import Interface
 
-def initial_selection(term: terminal, filter: int):
+def initial_selection(term: terminal, filter: int) -> int:
     menu_list = [
         " A  B  C  D  E  F  G ",
         " H  I  J  K  L  M  N ",
@@ -50,6 +50,11 @@ def initial_selection(term: terminal, filter: int):
             new_x = (selected_x + 1) % 7
             new_y = selected_y
             update = True
+        if GPIO.event_detected(Interface.stick_press):
+            return selected_x + selected_y * 7
+        if GPIO.event_detected(Interface.key3):
+            return -1
+
         if update:
             term._cx = selected_x * 3 * term._cw
             term._cy = (selected_y + 1) * term._ch

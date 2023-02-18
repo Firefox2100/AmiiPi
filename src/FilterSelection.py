@@ -3,7 +3,6 @@ import time
 import RPi.GPIO as GPIO
 
 import Interface
-import InitialSelection
 
 filter_menu = [
     "1. Characters",
@@ -12,7 +11,7 @@ filter_menu = [
     ]
 
 
-def filter_selection(term: terminal):
+def filter_selection(term: terminal) -> int:
     selected = 0
     stay = True
 
@@ -50,7 +49,7 @@ def filter_selection(term: terminal):
             term.puts(">")
         
         if GPIO.event_detected(Interface.stick_press):
-            InitialSelection.initial_selection(term, selected)
+            return selected
 
         term.flush()
         time.sleep(0.1)
