@@ -1,14 +1,17 @@
 import os
-import sys
 import random
 from amiibo import AmiiboDump, AmiiboMasterKey
 from time import sleep
 from pexpect.popen_spawn import PopenSpawn
 
 eml_starting_line = 19
+proxmark_path = "/usr/src/proxmark3/"
+port = "bt:20:19:05:06:22:69"
+amiibo_path = ""
+key_path = ""
 
 class Proxmark3:
-    def __init__(self, proxmark_path="/usr/src/proxmark3/", port="bt:20:19:05:06:22:69") -> None:
+    def __init__(self) -> None:
         self.proxmark_path = proxmark_path
         
         # Start the PM3 shell
@@ -34,7 +37,7 @@ class Proxmark3:
 
 
     def pm3_load(self, dump_name: str):
-        command = "hf mfu eload -f " + os.path.join(sys.path[0], "../assets/amiibos", dump_name)
+        command = "hf mfu eload -f " + os.path.join(amiibo_path, dump_name)
         self.proxmark3.sendline(input=command)
 
         sleep(2)
@@ -43,11 +46,11 @@ class Proxmark3:
         self.proxmark3.sendline(input=command)
 
 
-    def randomize_uid(self, input_name: str, key_path=sys.path[0]+"../assets/key.bin"):
+    def randomize_uid(self, input_name: str):
         uid = "04"
 
-        input_path = os.path.join(sys.path[0], "../assets/amiibos", input_name)
-        output_path = os.path.join(sys.path[0], "../assets/amiibos/", "temp.bin")
+        input_path = os.path.join(amiibo_path, input_name)
+        output_path = os.path.join(amiibo_path, "temp.bin")
 
         for i in range(0, 6):
             uid += hex(random.randint(0, 255))[2:]
@@ -73,7 +76,7 @@ class Proxmark3:
         sleep(2)
 
         source_path = os.path.join(self.proxmark_path, "temp.bin")
-        destination_path = os.path.join(sys.path[0], "../assets/amiibos", dump_name)
+        destination_path = os.path.join(amiibo_path, dump_name)
         os.replace(source_path, destination_path)
 
         os.remove(source_path)

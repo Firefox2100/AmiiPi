@@ -38,3 +38,5 @@ if __name__ == "__main__":
             root_path = arg
         elif opt in ("-o", "--opath"):
             output_path = arg
+        
+    read_files(root_path)
