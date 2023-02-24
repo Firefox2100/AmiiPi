@@ -25,6 +25,15 @@ def list_selection(term: terminal, data: list[tuple]) -> int:
     horizontal_counter = 0
     stay = True
 
+    if len(data) == 0:
+        term.clear()
+        term.println("Nothing here")
+        while stay:
+            if GPIO.event_detected(Interface.key3):
+                return -1
+            
+            time.sleep(0.1)
+
     menu = []
     for item in data:
         menu.append(item[0])
