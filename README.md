@@ -4,6 +4,14 @@ This is a Python project to use RPi 0w with OLED hat to work with Proxmark3, act
 
 ## Disclaimer
 
+This is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. It is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this software. If not, see [http://www.gnu.org/licenses/](http://www.gnu.org/licenses/).
+
+This project utilises third party softwares and tools, including but not limited to Python, SQLite, Proxmark3 (RRG Firmware), etc. The credit for these softwares should go to their original creators and contributors.
+
+This project is not, in any form, affiliated to Nintendo or RFIDResearchGroup. Please know that distribution of Amiibo data dumps or crypto keys are illegal in some regions or countries, thus they are not provided in this project.
+
+The data and images of the Amiibos are acquired from [AmiiboAPI](https://www.amiiboapi.com). Corresponding credit should go to the original team. This project does not modify the data acquired, except for display and format, and any questions regarding the data part should be presented to the AmiiboAPI teams.
+
 ## Feature
 
 This is basically an UI for Proxmark3 RRG firmware. It can:
@@ -97,6 +105,8 @@ python ./src/Rename.py -i <path/to/your/dumps/> -o <path/to>./assets/amiibos/
 ```
 
 Copy the key to the assets folder. The key file should be one combined file, although 2 separate files are also acceptable, with modification to the code.
+
+[Optional] Update the database. There is a SQLite database file in ``assets/amiibo.db``, and it’s generated from the public data collected by Amiibo API. Run ``src/BuildSQLite.py`` to update or generate this database file, as new Amiibo being released.
 
 Configure the paths. Open ``src/Proxmark3.py``, and modify the path strings to fit your system.
 
