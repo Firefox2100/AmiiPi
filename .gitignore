@@ -127,3 +127,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Amiibos and key
+
+assets/amiibos/
+assets/key.bin

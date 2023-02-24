@@ -7,13 +7,14 @@ from pexpect.popen_spawn import PopenSpawn
 eml_starting_line = 19
 proxmark_path = "/usr/src/proxmark3/"
 port = "bt:20:19:05:06:22:69"
+#port = "/dev/ttyACM0"
 amiibo_path = ""
 key_path = ""
 
 class Proxmark3:
     def __init__(self) -> None:
         self.proxmark_path = proxmark_path
-        
+
         # Start the PM3 shell
         shell_command = os.path.join(proxmark_path, "client", "") + "proxmark3 " + port
         self.proxmark3 = PopenSpawn(shell_command)
@@ -38,12 +39,12 @@ class Proxmark3:
 
     def pm3_load(self, dump_name: str):
         command = "hf mfu eload -f " + os.path.join(amiibo_path, dump_name)
-        self.proxmark3.sendline(input=command)
+        self.proxmark3.sendline(command)
 
-        sleep(2)
+        self.proxmark3.expect("Done!")
 
         command = "hf mfu sim -t 7"
-        self.proxmark3.sendline(input=command)
+        self.proxmark3.sendline(command)
 
 
     def randomize_uid(self, input_name: str):
@@ -72,8 +73,9 @@ class Proxmark3:
 
     def write_back(self, dump_name: str):
         command = "hf mfu esave -f temp"
-        self.proxmark3.sendline(input=command)
-        sleep(2)
+        self.proxmark3.sendline(command)
+        self.proxmark3.expect("to binary")
+        sleep(1)
 
         source_path = os.path.join(self.proxmark_path, "temp.bin")
         destination_path = os.path.join(amiibo_path, dump_name)
